@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "ca3": {
+      "type": "http",
+      "url": "https://ca3.dribwise.ai/mcp",
+      "oauth_resource": "https://ca3.dribwise.ai/mcp"
+    }
+  }
+}
