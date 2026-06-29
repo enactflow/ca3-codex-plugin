@@ -1,55 +1,38 @@
 ---
 name: ca3
-description: Use CA3 as the shared AI memory hub for notes, daily memory, and personalization. Trigger when users ask to remember, save, recall, search, update preferences, or preserve durable project context across AI clients.
+description: Bootstrap CA3 usage in Codex. Use the live CA3 MCP tool list and tool descriptions as the source of truth for notes, memory, and personalization behavior.
 ---
 
 # CA3
 
 CA3 is a user-owned memory hub shared by Codex, ChatGPT, Claude Code, and other MCP clients.
 
-Use CA3 when the user asks to remember, save, recall, search, or update persistent context, or when project instructions say CA3 is the appropriate memory surface.
+Use CA3 when the user asks to remember, save, recall, search, or update persistent context, or when project instructions say CA3 is the shared memory surface.
 
-## Memory Surfaces
+## Source Of Truth
 
-- Use `notes` for discrete artifacts: snippets, prompts, references, project notes, decisions, links, and standalone records.
-- Use `memory` for date-based ongoing context: daily work logs, travel notes, operational state, recurring project updates, and "today" records.
-- Use `personalization` for stable long-term user preferences, durable facts, recurring style choices, and reusable instructions.
+Do not infer detailed CA3 behavior from this file. The live MCP tool list and each MCP tool description are the source of truth for:
 
-## Read Behavior
+- Available tools.
+- Required arguments.
+- Notes, memory, and personalization boundaries.
+- Read, write, update, and delete behavior.
+- Scope and authorization failures.
 
-Search CA3 before answering when the request depends on prior user context, project history, saved decisions, reusable prompts, or preferences likely to exist in CA3.
+If you need to know what CA3 can do, inspect the CA3 MCP tools exposed by the plugin instead of reading local plugin files or guessing from cached state.
 
-Prefer scoped reads:
+## Bootstrap Behavior
 
-- Search notes for project references, saved snippets, and named artifacts.
-- Search memory for recent timeline context and daily updates.
-- Read personalization when the answer may depend on stable user preferences.
+- Prefer CA3 MCP tools over local filesystem searches for CA3 memory.
+- Search before answering when the request depends on prior saved context.
+- Write to CA3 when the user explicitly asks to remember or save durable context.
+- Ask first before storing sensitive, uncertain, inferred, or surprising personalization data.
+- Never store secrets, OAuth tokens, passwords, private keys, or recovery codes in CA3.
 
-Do not claim CA3 has no relevant context unless you actually searched the appropriate surface.
+## Stale Thread Handling
 
-## Write Behavior
+Codex Desktop may keep plugin skill and OAuth connection state per thread. After installing, updating, or re-authenticating CA3, start a new Codex thread before testing.
 
-Write to CA3 when the user explicitly asks to remember or save something.
+If a thread reports `oauth_refresh_token_missing` or `TRIGGER_REAUTHENTICATION`, authenticate CA3 again and then open a new thread.
 
-You may also write without extra confirmation when all of these are true:
-
-- The information is durable and useful beyond the current turn.
-- The content is not sensitive credential material.
-- The write target is obvious from the content.
-- The user or repo instructions indicate CA3 should be used as shared memory.
-
-Ask first when the content is sensitive, uncertain, inferred rather than stated, or could affect future personalization in a surprising way.
-
-## Update Behavior
-
-Prefer updating an existing relevant CA3 item over creating duplicates when the user is revising an existing note, daily memory entry, or personalization profile.
-
-When updating, preserve useful prior context and avoid overwriting user-authored content unless the user clearly asked for replacement.
-
-## Boundaries
-
-Do not store secrets, OAuth tokens, passwords, private keys, or recovery codes in CA3.
-
-Do not use memory or personalization as hidden scratch space. Only store context that the user would reasonably expect to persist.
-
-When unsure whether something belongs in notes, memory, or personalization, ask a short clarification or choose notes as the least invasive default.
+If a thread reports missing or mismatched `SKILL.md` paths, do not debug CA3 by reading local plugin cache paths. Use MCP tool discovery or open a new thread.

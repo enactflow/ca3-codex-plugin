@@ -41,6 +41,29 @@ Use CA3 explicitly:
 
 Or let Codex use CA3 automatically when project instructions say CA3 is the shared memory surface.
 
+CA3 behavior is defined by the live MCP tool descriptions exposed by:
+
+```text
+https://ca3.dribwise.ai/mcp
+```
+
+The plugin skill is only a bootstrap hint. It intentionally does not duplicate the detailed notes, memory, and personalization rules, so all CA3 clients share the same behavior contract from the MCP server.
+
+## Troubleshooting
+
+After installing, updating, or re-authenticating the plugin, start a new Codex thread before testing CA3. Existing threads may keep a stale plugin skill or OAuth connection snapshot.
+
+If an old thread reports:
+
+```text
+oauth_refresh_token_missing
+TRIGGER_REAUTHENTICATION
+```
+
+authenticate CA3 again, confirm `codex mcp list` shows `ca3` as enabled with OAuth, then open a new Codex thread.
+
+If an old thread reports that it cannot find `SKILL.md` or that plugin skill paths do not match, treat it as stale Codex plugin cache state. The CA3 MCP tools may still work through tool discovery, but the stable fix is to open a new thread after installation or update.
+
 ## License
 
 MIT
