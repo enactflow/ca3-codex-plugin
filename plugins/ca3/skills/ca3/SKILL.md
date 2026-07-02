@@ -5,7 +5,7 @@ description: Bootstrap CA3 usage in Codex. Use the live CA3 MCP tool list and to
 
 # CA3
 
-CA3 is a user-owned context hub shared by Codex, ChatGPT, Claude Code, and other MCP clients.
+CA3 gives AI agents a private, user-owned memory layer so important context can follow you across ChatGPT, Codex, Claude Code, and browser workflows.
 
 Use CA3 when the user asks to remember, save, recall, search, or update persistent context, or when project instructions say CA3 is the shared context surface.
 

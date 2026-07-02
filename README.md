@@ -1,6 +1,8 @@
 # CA3 Codex Plugin
 
-CA3 is a user-owned AI context hub for saved notes and attachments.
+<img src="assets/ca3-icon-rounded.png" alt="CA3" width="96">
+
+CA3 gives AI agents a private, user-owned memory layer so important context can follow you across ChatGPT, Codex, Claude Code, and browser workflows.
 
 This repository is a Codex plugin marketplace source for connecting Codex to the public CA3 OAuth MCP endpoint.
 

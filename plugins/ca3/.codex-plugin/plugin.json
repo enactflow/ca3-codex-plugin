@@ -1,7 +1,7 @@
 {
   "name": "ca3",
-  "version": "0.1.1",
-  "description": "Connect Codex to CA3, a user-owned context hub for saved notes and attachments.",
+  "version": "0.1.2",
+  "description": "Connect Codex to CA3, a private memory layer for AI agents.",
   "author": {
     "name": "EnactFlow",
     "url": "https://ca3.dribwise.ai"
@@ -20,8 +20,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "CA3",
-    "shortDescription": "Use CA3 notes and attachments from Codex.",
-    "longDescription": "CA3 is a user-owned AI context hub. This plugin connects Codex to CA3 through OAuth MCP so Codex can read and write scoped notes and attachments when the user asks or when project instructions make CA3 the appropriate shared context surface.",
+    "shortDescription": "Use CA3 as Codex's private memory layer.",
+    "longDescription": "CA3 gives AI agents a private, user-owned memory layer so important context can follow you across ChatGPT, Codex, Claude Code, and browser workflows. This plugin connects Codex to CA3 through OAuth MCP so Codex can use the current scoped notes and attachments surface.",
     "developerName": "EnactFlow",
     "category": "Productivity",
     "capabilities": [
