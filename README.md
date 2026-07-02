@@ -8,15 +8,38 @@ This repository is a Codex plugin marketplace source for connecting Codex to the
 
 ## Install
 
-Add this marketplace source:
+Add the CA3 marketplace, then install the `ca3` plugin:
 
 ```bash
 codex plugin marketplace add enactflow/ca3-codex-plugin
+codex plugin add ca3@ca3
 ```
 
-Then install `CA3` from the Codex plugin directory.
-
 On first use, Codex should open the CA3 OAuth flow and ask you to authorize the requested scopes.
+
+Start a new Codex thread after installing so the CA3 skill and MCP server are loaded cleanly.
+
+## Upgrade
+
+Refresh the CA3 marketplace snapshot, then reinstall the plugin from that snapshot:
+
+```bash
+codex plugin marketplace upgrade ca3
+codex plugin remove ca3@ca3
+codex plugin add ca3@ca3
+```
+
+Start a new Codex thread after upgrading. Existing threads may keep an older plugin skill or OAuth connection snapshot.
+
+## Verify
+
+Confirm CA3 is installed and enabled:
+
+```bash
+codex plugin list --json
+```
+
+Look for `ca3@ca3` with version `0.1.2` or newer and `"enabled": true`.
 
 ## MCP Endpoint
 
@@ -55,7 +78,7 @@ When creating or updating a note through MCP, include the required `profile_hint
 
 ## Troubleshooting
 
-After installing, updating, or re-authenticating the plugin, start a new Codex thread before testing CA3. Existing threads may keep a stale plugin skill or OAuth connection snapshot.
+After installing, upgrading, or re-authenticating the plugin, start a new Codex thread before testing CA3.
 
 If an old thread reports:
 
