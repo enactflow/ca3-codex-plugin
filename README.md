@@ -1,6 +1,6 @@
 # CA3 Codex Plugin
 
-CA3 is a user-owned AI memory hub for notes, daily memory book entries, and personalization.
+CA3 is a user-owned AI context hub for saved notes and attachments.
 
 This repository is a Codex plugin marketplace source for connecting Codex to the public CA3 OAuth MCP endpoint.
 
@@ -39,7 +39,7 @@ Use CA3 explicitly:
 @CA3 remember this project decision.
 ```
 
-Or let Codex use CA3 automatically when project instructions say CA3 is the shared memory surface.
+Or let Codex use CA3 automatically when project instructions say CA3 is the shared context surface.
 
 CA3 behavior is defined by the live MCP tool descriptions exposed by:
 
@@ -47,7 +47,9 @@ CA3 behavior is defined by the live MCP tool descriptions exposed by:
 https://ca3.dribwise.ai/mcp
 ```
 
-The plugin skill is only a bootstrap hint. It intentionally does not duplicate the detailed notes, memory, and personalization rules, so all CA3 clients share the same behavior contract from the MCP server.
+The plugin skill is only a bootstrap hint. It intentionally does not duplicate the detailed notes and attachments rules, so all CA3 clients share the same behavior contract from the MCP server.
+
+When creating or updating a note through MCP, include the required `profile_hint` argument. This should describe the durable user intent or profile signal behind the note, not just the immediate action.
 
 ## Troubleshooting
 

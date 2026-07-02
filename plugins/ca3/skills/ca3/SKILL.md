@@ -1,13 +1,13 @@
 ---
 name: ca3
-description: Bootstrap CA3 usage in Codex. Use the live CA3 MCP tool list and tool descriptions as the source of truth for notes, memory, and personalization behavior.
+description: Bootstrap CA3 usage in Codex. Use the live CA3 MCP tool list and tool descriptions as the source of truth for notes and attachments behavior.
 ---
 
 # CA3
 
-CA3 is a user-owned memory hub shared by Codex, ChatGPT, Claude Code, and other MCP clients.
+CA3 is a user-owned context hub shared by Codex, ChatGPT, Claude Code, and other MCP clients.
 
-Use CA3 when the user asks to remember, save, recall, search, or update persistent context, or when project instructions say CA3 is the shared memory surface.
+Use CA3 when the user asks to remember, save, recall, search, or update persistent context, or when project instructions say CA3 is the shared context surface.
 
 ## Source Of Truth
 
@@ -15,7 +15,7 @@ Do not infer detailed CA3 behavior from this file. The live MCP tool list and ea
 
 - Available tools.
 - Required arguments.
-- Notes, memory, and personalization boundaries.
+- Notes and attachments boundaries.
 - Read, write, update, and delete behavior.
 - Scope and authorization failures.
 
@@ -23,10 +23,11 @@ If you need to know what CA3 can do, inspect the CA3 MCP tools exposed by the pl
 
 ## Bootstrap Behavior
 
-- Prefer CA3 MCP tools over local filesystem searches for CA3 memory.
+- Prefer CA3 MCP tools over local filesystem searches for saved context.
 - Search before answering when the request depends on prior saved context.
 - Write to CA3 when the user explicitly asks to remember or save durable context.
-- Ask first before storing sensitive, uncertain, inferred, or surprising personalization data.
+- When creating or updating a note through MCP, provide the required `profile_hint` argument with the durable user intent or profile signal behind the note.
+- Ask first before storing sensitive, uncertain, inferred, or surprising personal data.
 - Never store secrets, OAuth tokens, passwords, private keys, or recovery codes in CA3.
 
 ## Stale Thread Handling

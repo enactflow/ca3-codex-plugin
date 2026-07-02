@@ -1,7 +1,7 @@
 {
   "name": "ca3",
-  "version": "0.1.0",
-  "description": "Connect Codex to CA3, a user-owned memory hub for notes, memory book entries, and personalization.",
+  "version": "0.1.1",
+  "description": "Connect Codex to CA3, a user-owned context hub for saved notes and attachments.",
   "author": {
     "name": "EnactFlow",
     "url": "https://ca3.dribwise.ai"
@@ -11,17 +11,17 @@
   "license": "MIT",
   "keywords": [
     "ca3",
-    "memory",
     "notes",
+    "attachments",
     "mcp",
-    "personalization"
+    "productivity"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "CA3",
-    "shortDescription": "Use CA3 notes, memory book, and personalization from Codex.",
-    "longDescription": "CA3 is a user-owned AI memory hub. This plugin connects Codex to CA3 through OAuth MCP so Codex can read and write scoped notes, daily memory, and personalization when the user asks or when project instructions make CA3 the appropriate shared memory surface.",
+    "shortDescription": "Use CA3 notes and attachments from Codex.",
+    "longDescription": "CA3 is a user-owned AI context hub. This plugin connects Codex to CA3 through OAuth MCP so Codex can read and write scoped notes and attachments when the user asks or when project instructions make CA3 the appropriate shared context surface.",
     "developerName": "EnactFlow",
     "category": "Productivity",
     "capabilities": [
@@ -33,7 +33,7 @@
     "defaultPrompt": [
       "Use CA3 to remember this project context.",
       "Search CA3 for related notes before changing code.",
-      "Update my CA3 personalization with this stable preference."
+      "Save this durable project decision in CA3 with the reason it matters later."
     ],
     "brandColor": "#0F766E",
     "screenshots": []
