@@ -76,6 +76,8 @@ The plugin skill is only a bootstrap hint. It intentionally does not duplicate t
 
 When creating or updating a note through MCP, include the required `profile_hint` argument. This should describe the durable user intent or profile signal behind the note, not just the immediate action.
 
+Attachment uploads use the live direct-upload tool flow: call `prepare_attachment_upload`, POST the exact bytes and returned multipart fields directly to object storage, then pass `upload_id` to `create_note`, `update_note`, or `attach_uploaded_file`. The MCP server no longer accepts attachment `data_base64`; hosts that cannot perform the external multipart POST must report attachment upload as unsupported.
+
 ## Troubleshooting
 
 After installing, upgrading, or re-authenticating the plugin, start a new Codex thread before testing CA3.
