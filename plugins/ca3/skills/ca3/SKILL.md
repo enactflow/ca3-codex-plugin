@@ -1,13 +1,15 @@
 ---
 name: ca3
-description: Bootstrap CA3 usage in Codex. Use the live CA3 MCP tool list and tool descriptions as the source of truth for notes and attachments behavior.
+description: Use CA3 as Codex's user-owned context and memory layer. Trigger for continuing selected work, recalling prior decisions or material, and intentionally saving durable context across agents.
 ---
 
 # CA3
 
 CA3 gives AI agents a private, user-owned memory layer so important context can follow you across ChatGPT, Codex, Claude Code, and browser workflows.
 
-Use CA3 when the user asks to remember, save, recall, search, or update persistent context, or when project instructions say CA3 is the shared context surface.
+Use CA3 when the user asks to continue selected work, remember, save, recall,
+search, organize, or update persistent context, or when the current task may
+depend on decisions or material saved by another agent.
 
 ## Source Of Truth
 
@@ -15,20 +17,47 @@ Do not infer detailed CA3 behavior from this file. The live MCP tool list and ea
 
 - Available tools.
 - Required arguments.
-- Notes and attachments boundaries.
-- Read, write, update, and delete behavior.
+- Scope-shaped visibility and resource boundaries.
+- Notes, Current Context, Collections, and attachments behavior.
+- Read, create, append, exact-edit, organize, and delete behavior.
 - Scope and authorization failures.
 
 If you need to know what CA3 can do, inspect the CA3 MCP tools exposed by the plugin instead of reading local plugin files or guessing from cached state.
 
-## Bootstrap Behavior
+## Agent Policy
 
-- Prefer CA3 MCP tools over local filesystem searches for saved context.
-- Search before answering when the request depends on prior saved context.
-- Write to CA3 when the user explicitly asks to remember or save durable context.
-- When creating or updating a note through MCP, provide the required `profile_hint` argument with the durable user intent or profile signal behind the note.
-- Ask first before storing sensitive, uncertain, inferred, or surprising personal data.
-- Never store secrets, OAuth tokens, passwords, private keys, or recovery codes in CA3.
+Use proactive read, intent-bound write, and explicit delete:
+
+- For "the Notes I selected", "current work", or a handoff, call
+  `get_active_context` first, then read only relevant Notes with `get_note`.
+  An empty Current Context is meaningful; do not silently replace it with a
+  library-wide search.
+- When the task may depend on older context, call `search_notes` proactively.
+  Search returns bounded discovery data; call `get_note` only for relevant hits.
+- For long Notes, follow `next_cursor`, use the returned outline, or use a
+  focused query. Do not ask the user to paste the entire Note.
+- Write only when the user expresses durable save intent or an explicit project
+  policy authorizes it. Use `create_note` for a new artifact, `append_note` for
+  chronological progress or handoff material, and `edit_note` for a precise
+  correction.
+- Every create, append, or edit needs a fresh `operation_id` and a short English
+  `profile_hint` describing the durable user intent. Reuse an operation ID only
+  to retry the exact same request after a lost response.
+- Use `manage_collections` only on explicit organization instructions. Never
+  infer a Collection, auto-classify Notes, or create one implicitly during a
+  move.
+- Call `delete_note` only when the user explicitly asks. Never delete as a side
+  effect of cleanup, deduplication, or organization.
+- Discover attachments from `get_note`, then use `read_attachment`. If a live
+  write schema has no file input, attachment writing is unsupported for this
+  host; do not invent or expose storage transport steps.
+- Ask first before storing sensitive, uncertain, inferred, or surprising
+  personal data. Never store secrets, OAuth tokens, passwords, private keys, or
+  recovery codes in CA3.
+
+If a tool or action is absent, treat it as ungranted capability. Do not probe
+hidden tools by name; explain the missing permission or ask the user to
+reauthorize when the requested action requires it.
 
 ## Stale Thread Handling
 

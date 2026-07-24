@@ -1,7 +1,7 @@
 {
   "name": "ca3",
-  "version": "0.1.2",
-  "description": "Connect Codex to CA3, a private memory layer for AI agents.",
+  "version": "0.2.0",
+  "description": "Connect Codex to CA3, a user-owned context and memory layer.",
   "author": {
     "name": "EnactFlow",
     "url": "https://ca3.dribwise.ai"
@@ -20,8 +20,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "CA3",
-    "shortDescription": "Use CA3 as Codex's private memory layer.",
-    "longDescription": "CA3 gives AI agents a private, user-owned memory layer so important context can follow you across ChatGPT, Codex, Claude Code, and browser workflows. This plugin connects Codex to CA3 through OAuth MCP so Codex can use the current scoped notes and attachments surface.",
+    "shortDescription": "Continue work with your user-owned CA3 context.",
+    "longDescription": "CA3 is a user-owned context and memory layer shared across ChatGPT, Codex, Claude Code, and browser workflows. Through scoped OAuth MCP, Codex can continue from the user's Current Context, discover prior Notes, read long Notes in bounded chunks, and safely create, append, precisely edit, organize, explicitly delete, or read attached material.",
     "developerName": "EnactFlow",
     "category": "Productivity",
     "capabilities": [
@@ -31,9 +31,9 @@
     ],
     "websiteURL": "https://ca3.dribwise.ai",
     "defaultPrompt": [
-      "Use CA3 to remember this project context.",
-      "Search CA3 for related notes before changing code.",
-      "Save this durable project decision in CA3 with the reason it matters later."
+      "Continue from the Notes in my CA3 Current Context.",
+      "Search CA3 for related decisions before changing code.",
+      "Append this progress to the relevant CA3 Note for the next agent."
     ],
     "brandColor": "#0F766E",
     "screenshots": []

@@ -39,7 +39,7 @@ Confirm CA3 is installed and enabled:
 codex plugin list --json
 ```
 
-Look for `ca3@ca3` with version `0.1.2` or newer and `"enabled": true`.
+Look for `ca3@ca3` with version `0.2.0` or newer and `"enabled": true`.
 
 ## MCP Endpoint
 
@@ -66,17 +66,33 @@ Use CA3 explicitly:
 
 Or let Codex use CA3 automatically when project instructions say CA3 is the shared context surface.
 
-CA3 behavior is defined by the live MCP tool descriptions exposed by:
+CA3 behavior is defined by the scope-shaped live MCP tool descriptions exposed by:
 
 ```text
 https://ca3.dribwise.ai/mcp
 ```
 
-The plugin skill is only a bootstrap hint. It intentionally does not duplicate the detailed notes and attachments rules, so all CA3 clients share the same behavior contract from the MCP server.
+The plugin skill supplies trigger and workflow guidance without duplicating the
+live schemas. The logical surface lets Codex continue from the user's Current
+Context, discover prior Notes, read long Notes in bounded chunks, and safely
+create, append, precisely edit, organize, explicitly delete, or read attached
+material. The exact tools shown depend on the scopes the user granted.
 
-When creating or updating a note through MCP, include the required `profile_hint` argument. This should describe the durable user intent or profile signal behind the note, not just the immediate action.
+For content writes, choose the smallest semantic operation:
 
-Attachment uploads use the live direct-upload tool flow: call `prepare_attachment_upload`, PUT the exact bytes directly to object storage with the returned method and signed headers, then pass `upload_id` to `create_note`, `update_note`, or `attach_uploaded_file`. Treat `412 Precondition Failed` as an already-created immutable object and continue finalization. The MCP server no longer accepts attachment `data_base64`; hosts that cannot perform the external PUT must report attachment upload as unsupported.
+- `create_note` for a new standalone artifact.
+- `append_note` for chronological progress or handoff material.
+- `edit_note` for exact, local corrections to an existing Note.
+
+All three require a fresh `operation_id` and a short `profile_hint` describing
+the durable user intent. Reuse the same operation ID only when retrying the same
+request after a lost response.
+
+Attachments are discovered through `get_note` and read through
+`read_attachment`. Low-level upload sessions and signed policy mechanics are not
+model-facing tools. If the live Note write schema does not expose a host file
+input, report attachment writing as unsupported instead of inventing a transport
+flow.
 
 ## Troubleshooting
 
