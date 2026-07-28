@@ -17,7 +17,7 @@ Do not infer detailed CA3 behavior from this file. The live MCP tool list and ea
 
 - Available tools.
 - Required arguments.
-- Scope-shaped visibility and resource boundaries.
+- Stable tool discovery, execution-time scopes, and resource boundaries.
 - Notes, Current Context, Collections, and attachments behavior.
 - Read, create, append, exact-edit, organize, and delete behavior.
 - Scope and authorization failures.
@@ -47,7 +47,10 @@ Use proactive read, intent-bound write, and explicit delete:
   infer a Collection, auto-classify Notes, or create one implicitly during a
   move.
 - Call `delete_note` only when the user explicitly asks. Never delete as a side
-  effect of cleanup, deduplication, or organization.
+  effect of cleanup, deduplication, or organization. Deletion is two-phase:
+  prepare first, then wait for the user to confirm in the CA3 MCP App. If the
+  host has no MCP Apps support, wait for a new explicit text confirmation
+  before submitting the returned short-lived confirmation token.
 - Discover attachments from `get_note`, then use `read_attachment`. If a live
   write schema has no file input, attachment writing is unsupported for this
   host; do not invent or expose storage transport steps.
@@ -55,9 +58,11 @@ Use proactive read, intent-bound write, and explicit delete:
   personal data. Never store secrets, OAuth tokens, passwords, private keys, or
   recovery codes in CA3.
 
-If a tool or action is absent, treat it as ungranted capability. Do not probe
-hidden tools by name; explain the missing permission or ask the user to
-reauthorize when the requested action requires it.
+The authenticated CA3 surface is stable. A tool-level `insufficient_scope`
+result means the current connection needs incremental authorization; ask the
+user to reauthorize and retry. Do not report it as `Tool not found`. If one of
+the documented tools is genuinely absent, refresh or reconnect the plugin and
+start a new thread before treating the server capability as unavailable.
 
 ## Stale Thread Handling
 
