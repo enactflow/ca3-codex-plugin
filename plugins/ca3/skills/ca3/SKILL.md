@@ -18,7 +18,7 @@ Do not infer detailed CA3 behavior from this file. The live MCP tool list and ea
 - Available tools.
 - Required arguments.
 - Stable tool discovery, execution-time scopes, and resource boundaries.
-- Notes, Current Context, Collections, and attachments behavior.
+- Notes, Current Context, Memory, Personalization, Collections, and attachments behavior.
 - Read, create, append, exact-edit, organize, and delete behavior.
 - Scope and authorization failures.
 
@@ -28,21 +28,35 @@ If you need to know what CA3 can do, inspect the CA3 MCP tools exposed by the pl
 
 Use proactive read, intent-bound write, and explicit delete:
 
-- For "the Notes I selected", "current work", or a handoff, call
-  `get_active_context` first, then read only relevant Notes with `get_note`.
-  An empty Current Context is meaningful; do not silently replace it with a
-  library-wide search.
-- When the task may depend on older context, call `search_notes` proactively.
-  Search returns bounded discovery data; call `get_note` only for relevant hits.
+- For cross-thread continuation, a handoff, or work that clearly depends on the
+  user's current state, call `catch_up` proactively. Treat its profile, Current
+  Context, and latest Memory as bounded source material, not an invented answer.
+- When the user specifically refers to selected Notes, use
+  `get_active_context`, then read only relevant Notes with `get_note`. An empty
+  Current Context is meaningful; do not silently replace it with a library-wide
+  search.
+- When past decisions, saved material, progress, or durable preferences may
+  affect the task, call `recall` proactively. Keep its Notes, Memory, and
+  Personalization results distinct. Use `search_notes` for Note-specific
+  discovery and `get_note` when complete Note content is needed.
 - For long Notes, follow `next_cursor`, use the returned outline, or use a
   focused query. Do not ask the user to paste the entire Note.
 - Write only when the user expresses durable save intent or an explicit project
-  policy authorizes it. Use `create_note` for a new artifact, `append_note` for
-  chronological progress or handoff material, and `edit_note` for a precise
-  correction.
+  policy authorizes it. Use `create_note` for a standalone artifact,
+  `append_note` for chronological material that belongs to an existing Note,
+  and `edit_note` for a precise correction.
 - Every create, append, or edit needs a fresh `operation_id` and a short English
   `profile_hint` describing the durable user intent. Reuse an operation ID only
   to retry the exact same request after a lost response.
+- Use `remember` for a high-confidence cross-thread checkpoint such as a durable
+  decision, progress state, blocker, or next step. Do not use it for ordinary
+  chat noise or as a substitute for a user-managed Note. Each call needs a fresh
+  `operation_id` and a short English `profile_hint`.
+- Use `update_personalization` only for stable, long-term, reusable user facts or
+  preferences. Read `catch_up` first, preserve still-valid profile content, and
+  submit a full replacement with its current `expected_revision_id` and a fresh
+  `operation_id`. Never auto-merge a conflict. Ask before writing sensitive,
+  uncertain, inferred, or surprising information.
 - Use `manage_collections` only on explicit organization instructions. Never
   infer a Collection, auto-classify Notes, or create one implicitly during a
   move.
@@ -58,11 +72,14 @@ Use proactive read, intent-bound write, and explicit delete:
   personal data. Never store secrets, OAuth tokens, passwords, private keys, or
   recovery codes in CA3.
 
-The authenticated CA3 surface is stable. A tool-level `insufficient_scope`
-result means the current connection needs incremental authorization; ask the
-user to reauthorize and retry. Do not report it as `Tool not found`. If one of
-the documented tools is genuinely absent, refresh or reconnect the plugin and
-start a new thread before treating the server capability as unavailable.
+The authenticated model-facing CA3 surface is stable across grants. Scopes are
+checked when a tool runs, not by hiding tools from discovery. A tool-level
+`insufficient_scope` result means the current connection needs incremental
+authorization; ask the user to reauthorize and retry. Plugin upgrades do not
+silently expand an existing OAuth grant. Do not report a scope failure as
+`Tool not found`. If one of the documented tools is genuinely absent, refresh
+or reconnect the plugin and start a new thread before treating the server
+capability as unavailable.
 
 ## Stale Thread Handling
 

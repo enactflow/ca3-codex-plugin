@@ -39,7 +39,7 @@ Confirm CA3 is installed and enabled:
 codex plugin list --json
 ```
 
-Look for `ca3@ca3` with version `0.2.0` or newer and `"enabled": true`.
+Look for `ca3@ca3` with version `0.3.0` or newer and `"enabled": true`.
 
 ## MCP Endpoint
 
@@ -66,17 +66,29 @@ Use CA3 explicitly:
 
 Or let Codex use CA3 automatically when project instructions say CA3 is the shared context surface.
 
-CA3 behavior is defined by the scope-shaped live MCP tool descriptions exposed by:
+CA3 behavior is defined by the live MCP tool descriptions exposed by:
 
 ```text
 https://ca3.dribwise.ai/mcp
 ```
 
 The plugin skill supplies trigger and workflow guidance without duplicating the
-live schemas. The logical surface lets Codex continue from the user's Current
-Context, discover prior Notes, read long Notes in bounded chunks, and safely
-create, append, precisely edit, organize, explicitly delete, or read attached
-material. The exact tools shown depend on the scopes the user granted.
+live schemas. The stable logical surface lets Codex catch up on current work,
+recall prior material across CA3 memory surfaces, preserve durable checkpoints,
+maintain confirmed personalization, and precisely work with Notes, Collections,
+deletion, and attachments. Granted scopes control execution rather than hiding
+tools from discovery.
+
+For foundational context operations:
+
+- `catch_up` for cross-thread continuation and handoff.
+- `recall` when earlier decisions, material, progress, or preferences may matter.
+- `remember` for a durable cross-thread checkpoint, not ordinary chat noise.
+- `update_personalization` for stable, confirmed long-term facts or preferences.
+
+New connections request CA3's current ten-scope default grant. Existing OAuth
+grants are not expanded by a plugin upgrade. If a new context tool returns
+`insufficient_scope`, reauthorize CA3 and retry in a new thread.
 
 For content writes, choose the smallest semantic operation:
 
