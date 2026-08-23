@@ -12,7 +12,7 @@ Add the CA3 marketplace, then install the `ca3` plugin:
 
 ```bash
 codex plugin marketplace add enactflow/ca3-codex-plugin
-codex plugin add ca3@ca3
+codex plugin add ca3@dribwise
 ```
 
 On first use, Codex should open the CA3 OAuth flow and ask you to authorize the requested scopes.
@@ -24,12 +24,25 @@ Start a new Codex thread after installing so the CA3 skill and MCP server are lo
 Refresh the CA3 marketplace snapshot, then reinstall the plugin from that snapshot:
 
 ```bash
-codex plugin marketplace upgrade ca3
-codex plugin remove ca3@ca3
-codex plugin add ca3@ca3
+codex plugin marketplace upgrade dribwise
+codex plugin remove ca3@dribwise
+codex plugin add ca3@dribwise
 ```
 
 Start a new Codex thread after upgrading. Existing threads may keep an older plugin skill or OAuth connection snapshot.
+
+### Migrate from `ca3@ca3`
+
+Versions before `0.4.1` used the same `ca3` identifier for both the marketplace and plugin. Migrate that installation once before using later versions:
+
+```bash
+codex plugin remove ca3@ca3
+codex plugin marketplace remove ca3
+codex plugin marketplace add enactflow/ca3-codex-plugin
+codex plugin add ca3@dribwise
+```
+
+Start a new Codex thread after migration. Do not keep `ca3@ca3` and `ca3@dribwise` enabled together.
 
 ## Verify
 
@@ -39,7 +52,7 @@ Confirm CA3 is installed and enabled:
 codex plugin list --json
 ```
 
-Look for `ca3@ca3` with version `0.4.0` or newer and `"enabled": true`.
+Look for `ca3@dribwise` with version `0.4.1` or newer and `"enabled": true`.
 
 ## MCP Endpoint
 
