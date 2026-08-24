@@ -73,9 +73,19 @@ Use proactive read, intent-bound write, and explicit delete:
   prepare first, then wait for the user to confirm in the CA3 MCP App. If the
   host has no MCP Apps support, wait for a new explicit text confirmation
   before submitting the returned short-lived confirmation token.
-- Discover attachments from `get_note`, then use `read_attachment`. If a live
-  write schema has no file input, attachment writing is unsupported for this
-  host; do not invent or expose storage transport steps.
+- Discover existing attachments from `get_note`, then use `read_attachment`.
+  When the user explicitly asks to add a file and the live schemas expose
+  `prepare_attachment` plus Note `attachments`, use one fresh operation ID to
+  prepare each file. For a host-delivered file, pass the host `file` reference.
+  For a local file that Codex can read, compute the exact filename, MIME type,
+  byte size, and lowercase SHA-256, pass them as `local_file`, then upload the
+  unchanged bytes with the returned method, URL, and headers. Do not print,
+  persist, or reuse the signed policy. Only after a successful upload, pass the
+  returned `upload_id` and a unique key to `create_note`, `append_note`, or
+  `edit_note`; reference an image as `{{image:key}}` in the same mutation. Reuse
+  an operation ID only for an exact lost-response retry. Never pass a local
+  path to CA3, invent a Base64 fallback, or treat a prepared upload as a saved
+  Note attachment before the Note mutation succeeds.
 - Ask first before storing sensitive, uncertain, inferred, or surprising
   personal data. Never store secrets, OAuth tokens, passwords, private keys, or
   recovery codes in CA3.
