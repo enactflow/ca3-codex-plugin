@@ -82,10 +82,14 @@ Use proactive read, intent-bound write, and explicit delete:
   unchanged bytes with the returned method, URL, and headers. Do not print,
   persist, or reuse the signed policy. Only after a successful upload, pass the
   returned `upload_id` and a unique key to `create_note`, `append_note`, or
-  `edit_note`; reference an image as `{{image:key}}` in the same mutation. Reuse
-  an operation ID only for an exact lost-response retry. Never pass a local
-  path to CA3, invent a Base64 fallback, or treat a prepared upload as a saved
-  Note attachment before the Note mutation succeeds.
+  `edit_note`. Reference an image with complete Markdown image syntax
+  `![Alt text]({{image:key}})` in that mutation; a bare `{{image:key}}` token is
+  invalid. To control standalone image layout, append
+  `{ca3-layout=1 ca3-align=center ca3-width=60}` immediately after the image.
+  Alignment is `left`, `center`, or `right`; width is `auto` or an integer from
+  `10` through `100`. Reuse an operation ID only for an exact lost-response
+  retry. Never pass a local path to CA3, invent a Base64 fallback, or treat a
+  prepared upload as a saved Note attachment before the Note mutation succeeds.
 - Ask first before storing sensitive, uncertain, inferred, or surprising
   personal data. Never store secrets, OAuth tokens, passwords, private keys, or
   recovery codes in CA3.
