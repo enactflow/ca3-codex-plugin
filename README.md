@@ -52,7 +52,7 @@ Confirm CA3 is installed and enabled:
 codex plugin list --json
 ```
 
-Look for `ca3@dribwise` with version `0.4.3` or newer and `"enabled": true`.
+Look for `ca3@dribwise` with version `0.4.4` or newer and `"enabled": true`.
 
 ## MCP Endpoint
 

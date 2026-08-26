@@ -1,6 +1,6 @@
 {
   "name": "ca3",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Connect Codex to CA3, a user-owned context and memory layer.",
   "author": {
     "name": "EnactFlow",
