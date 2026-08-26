@@ -55,8 +55,11 @@ Use proactive read, intent-bound write, and explicit delete:
   to retry the exact same request after a lost response.
 - Use `remember` for a high-confidence cross-thread checkpoint such as a durable
   decision, progress state, blocker, or next step. Each successful call creates
-  one atomic Memory event. Add the known project hint and available environment
-  without asking the user; omission is normal for Web or project-less work.
+  one atomic Memory event. Reuse an exact canonical project name returned by
+  `catch_up` when it fits; otherwise provide a new concise top-level project
+  name. Keep stages, branches, threads, handoffs, and workstreams in Memory
+  content. Add the known project hint and available environment without asking
+  the user; omission is normal for Web or project-less work.
   Never invent or override the authenticated source client. Do not use Memory
   for ordinary chat noise or as a substitute for a user-managed Note. Each call
   needs a fresh `operation_id` and a short English `profile_hint`.
