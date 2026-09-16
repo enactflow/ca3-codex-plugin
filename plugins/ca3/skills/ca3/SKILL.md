@@ -75,6 +75,12 @@ Use proactive read, intent-bound write, and explicit delete:
 - Use `manage_collections` only on explicit organization instructions. Never
   infer a Collection, auto-classify Notes, or create one implicitly during a
   move.
+  When live discovery exposes `list_tree`, use its stable IDs and parent links
+  to distinguish same-name Collections. Use an explicit `parent_id` for child
+  creation and `move_collection` for a requested subtree move; a move to the
+  current parent is a no-op, not a reorder. Keep existing `list`, root `create`,
+  `rename`, and `move_note` requests unchanged. A hierarchy-disabled response
+  is not permission to flatten the tree or silently choose a different target.
 - Call `delete_note` only when the user explicitly asks. Never delete as a side
   effect of cleanup, deduplication, or organization. Deletion is two-phase:
   prepare first, then wait for the user to confirm in the CA3 MCP App. If the
