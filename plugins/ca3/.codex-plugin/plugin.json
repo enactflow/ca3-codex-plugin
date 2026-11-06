@@ -1,12 +1,12 @@
 {
   "name": "ca3",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Connect Codex to CA3, a user-owned context and memory layer.",
   "author": {
     "name": "EnactFlow",
-    "url": "https://ca3.dribwise.ai"
+    "url": "https://ca3.dev"
   },
-  "homepage": "https://ca3.dribwise.ai",
+  "homepage": "https://ca3.dev",
   "repository": "https://github.com/enactflow/ca3-codex-plugin",
   "license": "MIT",
   "keywords": [
@@ -31,7 +31,7 @@
       "Read",
       "Write"
     ],
-    "websiteURL": "https://ca3.dribwise.ai",
+    "websiteURL": "https://ca3.dev",
     "defaultPrompt": [
       "Continue from the Notes in my CA3 Current Context.",
       "Recall relevant CA3 decisions before changing code.",

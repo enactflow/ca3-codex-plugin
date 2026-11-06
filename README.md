@@ -57,7 +57,7 @@ Look for `ca3@dribwise` with version `0.4.5` or newer and `"enabled": true`.
 ## MCP Endpoint
 
 ```text
-https://ca3.dribwise.ai/mcp
+https://ca3.dev/mcp
 ```
 
 ## Plugin Layout
@@ -82,7 +82,7 @@ Or let Codex use CA3 automatically when project instructions say CA3 is the shar
 CA3 behavior is defined by the live MCP tool descriptions exposed by:
 
 ```text
-https://ca3.dribwise.ai/mcp
+https://ca3.dev/mcp
 ```
 
 The plugin skill supplies trigger and workflow guidance without duplicating the
@@ -149,3 +149,10 @@ If an old thread reports that it cannot find `SKILL.md` or that plugin skill pat
 ## License
 
 MIT
+
+## Domain transition
+
+New manual connections can use `https://ca3.dev/mcp`. This plugin retains its existing
+`https://ca3.dribwise.ai/mcp` endpoint during the transition so updates do not change
+the connection identity used by installed clients. Both endpoints use the same CA3
+accounts, permissions, and data.
